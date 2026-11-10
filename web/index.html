@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MuJoCo 运行器 · 工作区 workcell-01</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body class="sheet">
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="brand-mark" width="20" height="18" viewBox="0 0 20 18" aria-hidden="true">
+      <circle cx="3" cy="15" r="3" fill="currentColor"></circle>
+      <circle cx="10" cy="9" r="3" fill="currentColor"></circle>
+      <circle cx="17" cy="3" r="3" fill="currentColor"></circle>
+    </svg>
+    <span class="brand-name">MuJoCo 运行器</span>
+    <span class="brand-version">V0.1</span>
+  </div>
+  <span class="topbar-divider" aria-hidden="true"></span>
+  <div class="workspace">
+    <span class="label">工作区</span>
+    <span class="value">workcell-01</span>
+  </div>
+  <span class="topbar-spacer"></span>
+  <div class="engine-meta">
+    <span data-engine-meta="MUJOCO 3.2.7 · MINK 0.3.1">MUJOCO 3.2.7 · MINK 0.3.1</span>
+    <span class="status-dot" data-engine-status="仿真引擎就绪">仿真引擎就绪</span>
+  </div>
+</header>
+
+<main class="page main">
+  <section class="intro" aria-labelledby="intro-title">
+    <p class="eyebrow-rule">UR5E · 逆运动学 · 轨迹脚本</p>
+    <h1 class="intro-title" id="intro-title">MuJoCo 运行器</h1>
+    <p class="intro-desc">
+      <span>把末端写成路点：坐标、停留秒数、夹爪开合。</span>
+      <span>mink 逐点解逆运动学，MuJoCo 里看它走完整条轨迹。</span>
+    </p>
+
+    <div class="entries">
+    <button class="entry entry--dark" type="button" id="entry-generate" aria-describedby="entry-generate-sub">
+      <span class="entry-num">01</span>
+      <span class="entry-body">
+        <span class="entry-title">生成脚本</span>
+        <span class="entry-sub" id="entry-generate-sub">从空场景开始搭轨迹</span>
+      </span>
+      <svg class="entry-arrow" width="20" height="10" viewBox="0 0 20 10" aria-hidden="true">
+        <path d="M0.5 5H19M14.5 0.8 19 5l-4.5 4.2" fill="none" stroke="currentColor" stroke-width="1.1"></path>
+      </svg>
+    </button>
+
+    <button class="entry entry--line" type="button" id="entry-load" aria-describedby="entry-load-sub">
+      <span class="entry-num">02</span>
+      <span class="entry-body">
+        <span class="entry-title">加载已有脚本</span>
+        <span class="entry-sub" id="entry-load-sub">打开 .py / .json，接着上次的继续改，或直接运行</span>
+      </span>
+      <svg class="entry-arrow" width="20" height="10" viewBox="0 0 20 10" aria-hidden="true">
+        <path d="M0.5 5H19M14.5 0.8 19 5l-4.5 4.2" fill="none" stroke="currentColor" stroke-width="1.1"></path>
+      </svg>
+    </button>
+    </div>
+  </section>
+
+  <aside class="recent" aria-labelledby="recent-title">
+    <div class="recent-head">
+      <h2 class="recent-title" id="recent-title">最近打开</h2>
+      <span class="recent-meta" id="recent-meta">&mdash; 个脚本 &middot; WORKCELL-01</span>
+    </div>
+    <div class="recent-list scroll" id="recent-rows"></div>
+  </aside>
+</main>
+
+<footer class="sheet-foot">
+  <div class="page sheet-foot-in">
+    <span>SHEET 01 &mdash; 主界面</span>
+    <span>workcell-01 &middot; UR5e &middot; 末端始终朝下</span>
+    <span>本地服务 127.0.0.1:8770 &middot; v0.1</span>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

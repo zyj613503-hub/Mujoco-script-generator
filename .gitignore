@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 运行产物
+out/trajectory.csv
+out/*.log
+out/*.check.json
+model/.layout-check-*/
+
+# 系统垃圾
+.DS_Store
+Thumbs.db
+desktop.ini

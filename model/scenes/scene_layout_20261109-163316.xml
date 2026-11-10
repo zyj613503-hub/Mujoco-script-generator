@@ -1,0 +1,82 @@
+<mujoco model="ur5e table scene">
+  <!--
+    舞台 = 机械臂（ur5e.xml，含夹爪） + 2 m × 2 m 木桌 + 黄球 + 盘子。
+    模型文件分工：
+      ur5e.xml   机械臂 + 二指夹爪（真正带自由度、会被仿真的东西）
+      scene.xml  这个文件：桌子、球、盘子、灯光、天空（"布景"）
+    桌子和夹爪的网格、木纹贴图都由 Blender 生成，源文件：model/blender/scene_assets.blend
+  -->
+  <include file="../ur5e.xml"/>
+  <compiler angle="radian" autolimits="true" meshdir="../assets"/>
+
+  <!-- 打开窗口时默认的视角中心与视野大小 -->
+  <statistic center="0 0 1.0" extent="1.7"/>
+
+  <visual>
+    <headlight diffuse="0.55 0.55 0.55" ambient="0.28 0.28 0.28" specular="0.1 0.1 0.1"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="135" elevation="-18" offwidth="1280" offheight="720"/>
+    <quality shadowsize="4096"/>
+    <map znear="0.01" zfar="60"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.36 0.56 0.76" rgb2="0.02 0.03 0.05"
+      width="512" height="3072"/>
+
+    <!-- 木纹贴图：Blender 用噪声程序化生成，2 m 的台面重复铺 2×2 次 -->
+    <texture type="2d" name="wood" file="../assets/wood_top.png"/>
+    <material name="wood" texture="wood" texrepeat="3 3" texuniform="true"
+      specular="0.15" shininess="0.15"/>
+
+    <material name="ball_yellow" rgba="1 0.82 0.08 1" specular="0.7" shininess="0.8"/>
+    <material name="plate_white" rgba="0.95 0.95 0.93 1" specular="0.45" shininess="0.5"/>
+    <material name="floor" rgba="0.16 0.17 0.18 1" specular="0.05" shininess="0.1"/>
+
+    <mesh file="plate.obj"/>
+  </asset>
+
+  <worldbody>
+    <!-- 灯光：一盏主光 + 一盏补光 -->
+    <light name="key" pos="0 -1.4 2.4" dir="0 0 -1" directional="true" diffuse="0.55 0.55 0.53"/>
+    <light name="fill" pos="1.6 1.4 2.2" dir="-1 -1 -1" directional="true" diffuse="0.3 0.3 0.32"
+      castshadow="false"/>
+
+    <geom name="floor" type="plane" size="0 0 0.05" material="floor"/>
+
+    <!-- ==================== 2 m × 2 m 木桌 ====================
+         台面：slab 尺寸 2.0 × 2.0 × 0.04（size 是半长），上表面正好在 z = 0.75。
+         想改桌子高度：改这里的 z 和 ur5e.xml 里 base 的 pos。 -->
+    <body name="table" pos="0 0 0">
+      <geom name="table_top" type="box" size="1.0 1.0 0.02" pos="0 0 0.73"
+            material="wood" friction="1.0 0.02 0.001"/>
+      <geom name="table_leg_a" type="box" size="0.045 0.045 0.36" pos=" 0.93  0.93 0.36"
+            material="wood" friction="0.9 0.02 0.001"/>
+      <geom name="table_leg_b" type="box" size="0.045 0.045 0.36" pos=" 0.93 -0.93 0.36"
+            material="wood" friction="0.9 0.02 0.001"/>
+      <geom name="table_leg_c" type="box" size="0.045 0.045 0.36" pos="-0.93  0.93 0.36"
+            material="wood" friction="0.9 0.02 0.001"/>
+      <geom name="table_leg_d" type="box" size="0.045 0.045 0.36" pos="-0.93 -0.93 0.36"
+            material="wood" friction="0.9 0.02 0.001"/>
+    </body>
+
+    <!-- ==================== 黄球：半径 0.022 m（直径 4.4 cm），质量 2 kg ====================
+         球心高度 = 桌面高度 0.75 + 半径 0.022 = 0.772；x、y 是它在桌上的位置。
+         这个直径比夹爪最大开口（约 5.4 cm）小，所以爪子能夹住它。
+         想挪位置改 pos 的前两个数；想改大小：size 和 pos 的 z 要一起改（z = 0.75 + size）。 -->
+    <body name="ball" pos="0.5000 -0.0500 0.7711">
+      <freejoint/>
+      <geom name="ball_geom" type="sphere" size="0.022" mass="0.02" material="ball_yellow"
+            friction="1.6 0.08 0.002"/>
+    </body>
+
+    <!-- ==================== 盘子 ====================
+         盘子网格底部在 -0.007，所以球心（pos 的 z）取 0.75 + 0.007 = 0.757 正好落在桌面上。
+         改 x、y 就能换地方。 -->
+    <body name="plate" pos="0.5202 0.2798 0.7569">
+      <freejoint/>
+      <geom name="plate_geom" type="mesh" mesh="plate" material="plate_white"
+            friction="0.9 0.02 0.001"/>
+    </body>
+  </worldbody>
+</mujoco>

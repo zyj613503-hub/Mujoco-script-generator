@@ -1,0 +1,23 @@
+{
+  "savedAt": "2026-11-09T16:56:07",
+  "scene": "model/scenes/scene_layout_20261109-164825.xml",
+  "savedScene": "model/scenes/scene_layout_20261109-165603.xml",
+  "bodies": [
+    {
+      "name": "ball",
+      "pos": [
+        0.0011,
+        -0.4518,
+        0.77109
+      ]
+    },
+    {
+      "name": "plate",
+      "pos": [
+        -0.0297,
+        0.4325,
+        0.75687
+      ]
+    }
+  ]
+}

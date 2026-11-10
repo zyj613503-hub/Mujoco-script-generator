@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>轨迹脚本 · MuJoCo 运行器</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/builder.css">
+</head>
+<body class="builder">
+
+<header class="topbar">
+  <a class="tb-back" href="index.html">← 返回</a>
+  <span class="tb-rule"></span>
+  <svg class="brand-mark" width="20" height="18" viewBox="0 0 20 18" aria-hidden="true">
+    <circle cx="3" cy="15" r="3" fill="currentColor"></circle>
+    <circle cx="10" cy="9" r="3" fill="currentColor"></circle>
+    <circle cx="17" cy="3" r="3" fill="currentColor"></circle>
+  </svg>
+  <span class="tb-brand">MuJoCo 运行器</span>
+  <span class="tb-rule tb-rule--short"></span>
+  <nav class="crumb" aria-label="面包屑">
+    <span class="crumb-label">工作区</span>
+    <b>workcell-01</b>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-current">生成脚本</span>
+  </nav>
+  <div class="topbar-spacer"></div>
+  <div class="engine-meta">
+    <span data-engine-meta>MUJOCO 3.2.7 · MINK 0.3.1</span>
+    <span class="engine-status status-dot" data-engine-status>仿真引擎就绪</span>
+  </div>
+</header>
+
+<main class="page">
+  <section class="page-head">
+    <div class="head-left">
+      <div class="eyebrow-rule head-eyebrow">STEP 02 — 路径 · 场景 · 输出</div>
+      <h1 class="page-title">轨迹脚本</h1>
+    </div>
+    <div class="head-meta">
+      <div>WORKCELL-01 · UR5E · 末端朝下</div>
+      <div id="head-count">1 路点 · 6.00 S · 1 次夹爪动作</div>
+    </div>
+  </section>
+
+  <div class="layout">
+    <div class="col-main">
+
+      <section class="panel fig-panel" aria-label="桌面俯视与高度剖面">
+        <div class="panel-head fig-head">
+          <span>FIG. 02&nbsp;&nbsp;桌面俯视 · 轨迹投影 · 高度剖面</span>
+          <span class="fig-scene" id="fig-scene">—</span>
+          <span class="right">单位 MM</span>
+        </div>
+        <div class="fig-art" id="fig-art"></div>
+      </section>
+
+      <section class="wpt-block" aria-label="轨迹点">
+        <div class="wpt-head">
+          <h2 class="wpt-title">轨迹点</h2>
+          <span class="wpt-sub" id="wpt-sub">1 行 · 自上而下依次执行</span>
+          <span class="wpt-hint">到达 → 停留 → 夹爪</span>
+        </div>
+
+        <div class="wpt">
+          <table class="wpt-table" aria-hidden="true">
+            <colgroup>
+              <col style="width:56px"><col style="width:150px"><col style="width:150px">
+              <col style="width:150px"><col style="width:110px"><col style="width:130px"><col style="width:66px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="c-idx">#</th>
+                <th class="c-num">X</th>
+                <th class="c-num">Y</th>
+                <th class="c-num">Z</th>
+                <th class="c-num">停留 S</th>
+                <th class="c-grip">夹爪</th>
+                <th class="c-del"></th>
+              </tr>
+            </thead>
+          </table>
+
+          <div class="wpt-body scroll" id="wpt-body">
+            <table class="wpt-table">
+              <colgroup>
+                <col style="width:56px"><col style="width:150px"><col style="width:150px">
+                <col style="width:150px"><col style="width:110px"><col style="width:130px"><col style="width:66px">
+              </colgroup>
+              <tbody id="wpt-rows"></tbody>
+            </table>
+          </div>
+
+          <button class="wpt-add" id="wpt-add" type="button">
+            <span class="wpt-add-label">+ 添加轨迹点</span>
+            <span class="wpt-add-hint">末尾追加</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <aside class="col-side">
+      <section class="panel side-panel" aria-label="模型与场景">
+        <div class="panel-head">
+          <span>SCENE&nbsp; 模型与场景</span>
+          <span class="right">XML</span>
+        </div>
+        <div class="side-body">
+          <div class="field">
+            <label for="model-xml">模型 XML</label>
+            <div class="field-box">
+              <input id="model-xml" type="text" value="model/ur5e.xml" spellcheck="false" autocomplete="off">
+              <button class="browse" type="button" data-pick="model">浏览</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="scene-xml">场景 XML</label>
+            <div class="field-box">
+              <input id="scene-xml" type="text" value="model/scene.xml" spellcheck="false" autocomplete="off">
+              <button class="browse" type="button" data-pick="scene">浏览</button>
+            </div>
+          </div>
+          <button class="btn-layout" id="btn-layout" type="button">
+            <span class="btn-label">布置场景</span>
+            <svg width="7" height="10" viewBox="0 0 7 10" aria-hidden="true"><path d="M0 0l7 5-7 5z" fill="currentColor"></path></svg>
+          </button>
+        </div>
+      </section>
+
+      <section class="panel side-panel" aria-label="脚本摘要">
+        <div class="panel-head">
+          <span>OUTPUT&nbsp; 脚本摘要</span>
+          <span class="right">.PY</span>
+        </div>
+        <div class="out-body">
+          <div class="out-row"><span class="k">路点</span><span class="v" id="out-n">1</span></div>
+          <div class="out-row"><span class="k">总时长</span><span class="v" id="out-dur">6.00 s</span></div>
+          <div class="out-row"><span class="k">夹爪动作</span><span class="v" id="out-grip">1 次</span></div>
+          <div class="out-row"><span class="k">末端姿态</span><span class="v">始终朝下</span></div>
+          <div class="out-sep"></div>
+          <div class="out-check" id="out-check"><span class="dot"></span><span id="out-check-text">校验 · 全部路点可达</span></div>
+          <p class="out-note" id="out-note">IK 最大误差 0.01 MM · 关节速度 1.12 RAD/S</p>
+        </div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="cmdbar">
+  <div class="page cmdbar-inner">
+    <span class="cmd-label">生成脚本</span>
+    <div class="cmd-field">
+      <span class="cmd-prefix">scripts/</span>
+      <input id="script-name" type="text" value="pick_and_place" spellcheck="false" autocomplete="off" aria-label="脚本文件名">
+      <span class="cmd-suffix">.py</span>
+    </div>
+    <span class="cmd-path" id="cmd-path"></span>
+    <a class="btn cmd-cancel" href="index.html">取消</a>
+    <button class="btn btn--ink cmd-go" id="btn-generate" type="button">确认生成</button>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/builder.js"></script>
+</body>
+</html>
